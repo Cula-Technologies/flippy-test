@@ -1,7 +1,6 @@
 import * as THREE from 'three';
 import Scene from '../src/Scene.js';
 import { MarchingCubes } from 'three/addons/objects/MarchingCubes.js'
-import TextView from '../src/views/TextView.js';
 
 const defaults = {
   blobCount: 5
@@ -58,8 +57,6 @@ const lava = function(props) {
 
   scene.on('loaded', () => {
     effect = createEffect();
-    const textview = new TextView('Lava', { fontName: 'Futura', fontSize: 28})
-    scene.add(textview)
     scene.add(effect);
   })
 

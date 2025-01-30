@@ -65,14 +65,13 @@ export { image as scene, schema }
 
 
 
-### Matter, Pixi, Three
+### Matter,  Three
 
 ```js
 
   const scene = createScene()
 
-  // easy access to pixi, three, matter
-  scene.pixi.add(new PIXI.Graphics())
+  // easy access to three, matter
   scene.three.add(new THREE.Mesh())
   scene.matter.add(new Matter.Body())
 

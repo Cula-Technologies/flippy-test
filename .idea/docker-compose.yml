@@ -1,0 +1,21 @@
+services:
+  timescale:
+    container_name: timescale
+    image: timescale/timescaledb:2.16.1-pg16
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./init-timescale-db.sql:/docker-entrypoint-initdb.d/init-timescale-db.sql
+  mosquitto:
+    image: eclipse-mosquitto
+    hostname: mosquitto
+    container_name: mosquitto
+    restart: unless-stopped
+    ports:
+      - '1883:1883'
+      - '9001:9001'
+    volumes:
+      - ./mosquitto:/etc/mosquitto
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf

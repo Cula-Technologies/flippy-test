@@ -15,9 +15,6 @@
     "-": "^0.0.1",
     "@breejs/later": "^4.2.0",
     "@hono/node-server": "^1.10.0",
-    "@pixi/filter-dot": "^5.1.1",
-    "@pixi/filter-glow": "^5.2.1",
-    "@pixi/node": "^7.3.0",
     "flipdisc": "^0.0.16",
     "glslify": "^7.1.1",
     "gsap": "^3.12.5",
@@ -27,12 +24,10 @@
     "node-canvas-webgl": "github:kelly/node-canvas-webgl",
     "pino": "^9.1.0",
     "pino-pretty": "^11.1.0",
-    "pixi-flex-layout": "github:kelly/node-pixi-flex-layout",
     "protobufjs": "^7.3.0",
     "raf": "^3.4.1",
     "three": "^0.162.0",
     "workerpool": "^9.1.1",
-    "ws": "^8.17.0",
-    "zeromq": "^6.0.0-beta.19"
+    "ws": "^8.17.0"
   }
 }

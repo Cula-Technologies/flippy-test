@@ -1,7 +1,7 @@
 import EventEmitter from 'events';
 import { createCanvas } from 'node-canvas-webgl';
 import Display from './Display.js';
-import { PixiModule, ThreeModule, MatterModule, UserInputModule, isModule } from './modules/index.js';
+import { ThreeModule, MatterModule, UserInputModule, isModule } from './modules/index.js';
 import  * as modules from './modules/index.js';
 import { Utils } from 'flipdisc';
 import { isImageData, formatRGBAPixels } from '../utils/image.js';
@@ -182,14 +182,6 @@ class Scene extends EventEmitter {
     return this._three;
   }
 
-  get pixi() {
-   if (!this._pixi) {
-      this._pixi = new PixiModule(this.canvas);
-      this._addModule(this._pixi);
-    }
-    return this._pixi;
-  }
-
   get matter() {
     if (!this._matter) {
       this._matter = new MatterModule(this.canvas);
@@ -226,9 +218,6 @@ class Scene extends EventEmitter {
     return this.canvas?.toBuffer('raw');
   }
 
-  get stage() {
-    return this.pixi.stage;
-  }
 
   get isStatic() {
     return this.loops.length === 0;
