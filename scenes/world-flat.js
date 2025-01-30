@@ -12,6 +12,8 @@ const world = function () {
   const scene = new Scene();
   let map;
   let material;
+  let x;
+  let y;
 
   const clock = new THREE.Clock();
 
@@ -90,21 +92,42 @@ const world = function () {
     map = new THREE.Mesh(planeGeometry, material);
     scene.add(map);
 
-    // Store circle position
+    // Convert lat/long to normalized coordinates
+
+    // Potsdam
     const lat = 52.3906;
     const long = 13.0645;
-    const x = (long / 180) * 1.5;
-    const y = (lat / 90) * 0.75;
+
+    // New York
+    // const lat = 40.7128;
+    // const long = -74.006;
+
+    // Sydney
+    // const lat = -33.8651;
+    // const long = 151.2153;
+
+    // Tokyo
+    // const lat = 35.6895;
+    // const long = 139.6917;
+
+    x = (long / 180) * 1.5;
+    y = (lat / 90) * 0.75;
   });
 
   scene.useLoop(() => {
     const time = clock.getElapsedTime();
-    const scale = (Math.sin(time * 3) + 1) * 0.5;
+    const scale = (Math.sin(time) + 1) * 0.5;
     // Update the circle scale in the shader instead
     if (material.userData.shader) {
-      material.userData.shader.uniforms.circleScale.value = 1 + scale;
-      material.userData.shader.uniforms.ringWidth.value = 0.05 / (scale + 0.5);
+      material.userData.shader.uniforms.circleScale.value = 0.1 + scale * 2;
+      material.userData.shader.uniforms.ringWidth.value = 0.02 / (scale + 0.5);
     }
+
+    map.scale.x = 2;
+    map.scale.y = 2;
+
+    map.position.x = -x * 2;
+    map.position.y = -y * 2;
   }, 15);
 
   return scene;
