@@ -18,7 +18,7 @@ const world = function () {
   const clock = new THREE.Clock();
 
   scene.once("loaded", async () => {
-    var canvas = createCanvas(320, 160);
+    var canvas = createCanvas(512, 256);
     var ctx = canvas.getContext("2d");
 
     var image = new Image();
@@ -30,8 +30,8 @@ const world = function () {
     const texture = new THREE.CanvasTexture(
       canvas,
       undefined,
-      undefined,
-      undefined,
+      THREE.RepeatWrapping,
+      THREE.RepeatWrapping,
       THREE.NearestFilter,
       THREE.NearestFilter
     );
@@ -65,11 +65,13 @@ const world = function () {
         shader.fragmentShader = shader.fragmentShader.replace(
           "#include <map_fragment>",
           `
-          #include <map_fragment>
+          vec2 uv = (vMapUv - 0.3333333) * 3.0;
+          vec4 sampledDiffuseColor = texture2D( map, uv );
+          diffuseColor *= sampledDiffuseColor;
           
           vec2 worldPos = vec2(
-            vMapUv.x * 3.0 - 1.5,
-            vMapUv.y * 1.5 - 0.75
+            uv.x * 3.0 - 1.5,
+            uv.y * 1.5 - 0.75
           );
           
           float dist = distance(worldPos, circlePosition);
@@ -88,11 +90,9 @@ const world = function () {
       },
     });
 
-    const planeGeometry = new THREE.PlaneGeometry(3, 1.5, 1, 1);
+    const planeGeometry = new THREE.PlaneGeometry(9, 4.5, 1, 1);
     map = new THREE.Mesh(planeGeometry, material);
     scene.add(map);
-
-    // Convert lat/long to normalized coordinates
 
     // Potsdam
     const lat = 52.3906;
@@ -110,13 +110,21 @@ const world = function () {
     // const lat = 35.6895;
     // const long = 139.6917;
 
+    // Singapore
+    // const lat = 1.2864;
+    // const long = 103.8501;
+
+    // Alaska
+    // const lat = 61.2181;
+    // const long = -149.9003;
+
     x = (long / 180) * 1.5;
     y = (lat / 90) * 0.75;
   });
 
   scene.useLoop(() => {
     const time = clock.getElapsedTime();
-    const scale = (Math.sin(time) + 1) * 0.5;
+    const scale = (Math.sin(time) + 1.05) * 0.4;
     // Update the circle scale in the shader instead
     if (material.userData.shader) {
       material.userData.shader.uniforms.circleScale.value = 0.1 + scale * 2;
