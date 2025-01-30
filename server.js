@@ -4,4 +4,4 @@ import { layout, devices, nullDevices, options } from './config/config.js'
 
 Display.configure(layout, devices, options)
 //Display.configure(layout, nullDevices, options)
-const app = createServer()
+const app = createServer()const {app, server} = createServer()

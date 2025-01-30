@@ -18,17 +18,19 @@ const createServer = async (options) => {
   const taskManager = new SceneTaskManager(scenes)
   const app = new Hono()
 
-  serve({
+  const server = serve({
     fetch: app.fetch,
     port: options.port,
   }, (info) => {
     logger.info(`Listening on http://localhost:${info.port}`)
   })
-  
   startWebsocket(options.wsPort)  
   configureRoutes(app)
 
-  return app
+  return {
+    app,
+    server,
+  }
 }
 
 export default createServer;
