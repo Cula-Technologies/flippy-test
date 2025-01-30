@@ -2,7 +2,7 @@ import Scene from '../src/Scene.js';
 import { ImageView } from '../src/views/index.js'
 
 const defaults = {
-  url: 'https://upload.wikimedia.org/wikipedia/en/thumb/7/72/IggyPopLustForLife.jpg/220px-IggyPopLustForLife.jpg',
+  url: 'http://localhost:8000/test.jpg',
 }
 
 const schema = {
