@@ -4,15 +4,13 @@ import * as THREE from "three";
 import { mapData } from "../resources/textures/map.js";
 
 const schema = {
-  title: "World",
-  description: "A simple world widget.",
+  title: "Flat World",
+  description: "A flat world widget.",
 };
 
 const world = function () {
   const scene = new Scene();
-  let globe;
-
-  const clock = new THREE.Clock();
+  let map;
 
   scene.once("loaded", async () => {
     const ambientLight = new THREE.AmbientLight("#ffffff", 3);
@@ -31,18 +29,22 @@ const world = function () {
 
     const material = new THREE.MeshStandardMaterial({
       map: texture,
+      colorWrite: true,
+      onBeforeCompile: (shader) => {
+        shader.fragmentShader = shader.fragmentShader.replace(
+          "#include <map_fragment>",
+          `
+          #include <map_fragment>
+          diffuseColor.rgb = 1.0 - diffuseColor.rgb;
+          `
+        );
+      },
     });
 
-    const sphereGeometry = new THREE.SphereGeometry(1, 64, 64);
-    globe = new THREE.Mesh(sphereGeometry, material);
-    globe.position.z = -1;
-    scene.add(globe);
+    const planeGeometry = new THREE.PlaneGeometry(3, 1.5, 1, 1);
+    map = new THREE.Mesh(planeGeometry, material);
+    scene.add(map);
   });
-
-  scene.useLoop(() => {
-    const delta = clock.getDelta();
-    globe.rotation.y += delta * 0.25;
-  }, 15);
 
   return scene;
 };
