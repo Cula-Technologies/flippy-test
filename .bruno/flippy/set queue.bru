@@ -1,0 +1,17 @@
+meta {
+  name: set queue
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/queue
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 1
+  }
+}

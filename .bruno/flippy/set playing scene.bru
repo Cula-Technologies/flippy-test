@@ -1,0 +1,17 @@
+meta {
+  name: set playing scene
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/api/playing
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": 4
+  }
+}
