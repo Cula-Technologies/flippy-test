@@ -8,4 +8,6 @@ if (process.env.NODE_ENV === 'production') {
 } else {
     Display.configure(layout, nullDevices, options)
 }
-const {app, server} = createServer()
+const {app, server} = createServer({
+    sceneDir: process.env.SCENE_DIR || './scenes',
+})
