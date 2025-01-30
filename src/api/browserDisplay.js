@@ -9,7 +9,7 @@ export const getBrowserDisplay = async (c) => {
     const paddingLeft = 2;
     const paddingTop = 2;
     const radius = 8;
-    const updateInterval = 200;
+    const updateInterval = 100;
 
     var stage = new Konva.Stage({
         container: 'container',
@@ -28,8 +28,8 @@ export const getBrowserDisplay = async (c) => {
                 for(var x=0 ; x<data.width ; x++) {
                     Dots[y][x] = new Konva.Circle({
                         radius: radius,
-                        fill: data.content[y][x] === 1 ? 'black' : 'white',
-                        stroke: data.content[y][x] === 1 ? 'black' : 'white',
+                        fill: data.content[y][x] === 0 ? 'black' : 'white',
+                        stroke: data.content[y][x] === 0 ? 'black' : 'white',
                         strokeWidth: 0
                     });
                     Dots[y][x].absolutePosition({
@@ -47,8 +47,8 @@ export const getBrowserDisplay = async (c) => {
                         const data = response.data;
                         for(var y=0 ; y<data.height ; y++) {
                             for(var x=0 ; x<data.width ; x++) {
-                                Dots[y][x].fill(data.content[y][x] === 1 ? 'black' : 'white');
-                                Dots[y][x].stroke(data.content[y][x] === 1 ? 'black' : 'white');
+                                Dots[y][x].fill(data.content[y][x] === 0 ? 'black' : 'white');
+                                Dots[y][x].stroke(data.content[y][x] === 0 ? 'black' : 'white');
                             }
                         }
                     })
