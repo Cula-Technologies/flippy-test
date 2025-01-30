@@ -1,4 +1,5 @@
 import { getDisplay } from './display.js'
+import { getBrowserDisplay } from './browserDisplay.js'
 
 import { 
   postPlaying,
@@ -28,6 +29,7 @@ const API = {
   getScenes,
   getSceneByID,
   getDisplay,
+  getBrowserDisplay,
   postPlaying,
   postPlayingPause,
   postPlayingResume,
@@ -47,6 +49,7 @@ const API = {
 // web routes
 
 const configureRoutes = (app) => {
+  app.get('/display', API.getBrowserDisplay)
   app.get('/api/playing', API.getPlaying)
   app.get('/api/display', API.getDisplay)
   app.get('/api/queue', API.getQueue)
