@@ -4,8 +4,8 @@ import * as THREE from "three";
 import { mapData } from "../resources/textures/map.js";
 
 const schema = {
-  title: "Flat World",
-  description: "A flat world widget.",
+  title: "Flat World Zoomed In",
+  description: "A zoomed in flat world widget.",
 };
 
 const world = function () {
@@ -78,10 +78,13 @@ const world = function () {
           
           // Create inner and outer edge of ring
           float outerEdge = smoothstep(circleRadius * circleScale, (circleRadius * circleScale) + 0.01, dist);
+          float innerEdge = smoothstep((circleRadius - ringWidth) * circleScale, ((circleRadius - ringWidth) * circleScale) + 0.01, dist);
           
+          // Combine edges to create ring
+          float ring = innerEdge * (1.0 - outerEdge);
           
           // Invert colors only in the ring area
-          diffuseColor.rgb = mix(1.0 - diffuseColor.rgb, diffuseColor.rgb, 1.0 - outerEdge);
+          diffuseColor.rgb = mix(1.0 - diffuseColor.rgb, diffuseColor.rgb, 1.0 - ring);
           `
         );
       },
@@ -121,12 +124,18 @@ const world = function () {
 
   scene.useLoop(() => {
     const time = clock.getElapsedTime();
-    const scale = (Math.sin(time * 2) + 1.05) * 4;
+    const scale = (Math.sin(time) + 1.05) * 0.4;
     // Update the circle scale in the shader instead
     if (material.userData.shader) {
       material.userData.shader.uniforms.circleScale.value = 0.1 + scale * 2;
       material.userData.shader.uniforms.ringWidth.value = 0.02 / (scale + 0.5);
     }
+
+    map.scale.x = 2;
+    map.scale.y = 2;
+
+    map.position.x = -x * 2;
+    map.position.y = -y * 2;
   }, 15);
 
   return scene;
