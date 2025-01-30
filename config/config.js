@@ -9,7 +9,7 @@ const layout = [
     [12, 6],
 ];
 const devices = [{
-    path: '/dev/tty.usbserial-BG009RN1',
+    path: process.env.USB_DEVICE ?? '/dev/ttyUSB0',
     addresses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     baudRate: 57600,
 }]
