@@ -46,7 +46,6 @@ const world = function () {
         // Add uniforms for circle
         shader.uniforms.circlePosition = { value: new THREE.Vector2(x, y) };
         shader.uniforms.circleRadius = { value: 0.2 };
-        shader.uniforms.ringWidth = { value: 0.05 };
         shader.uniforms.circleScale = { value: 1.0 };
 
         // Add uniform declarations to shader
@@ -55,7 +54,6 @@ const world = function () {
           `
           uniform vec2 circlePosition;
           uniform float circleRadius;
-          uniform float ringWidth;
           uniform float circleScale;
           void main() {
           `
@@ -125,7 +123,6 @@ const world = function () {
     // Update the circle scale in the shader instead
     if (material.userData.shader) {
       material.userData.shader.uniforms.circleScale.value = 0.1 + scale * 2;
-      material.userData.shader.uniforms.ringWidth.value = 0.02 / (scale + 0.5);
     }
   }, 15);
 
