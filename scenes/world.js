@@ -19,7 +19,7 @@ const world = function () {
     const ambientLight = new THREE.AmbientLight("#ffffff", 3);
     scene.add(ambientLight);
 
-    var canvas = createCanvas(320, 160);
+    var canvas = createCanvas(512, 256);
     var ctx = canvas.getContext("2d");
 
     var image = new Image();
