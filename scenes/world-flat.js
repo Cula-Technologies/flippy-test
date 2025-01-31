@@ -152,11 +152,11 @@ const world = function (props = {}) {
     const time = clock.getElapsedTime();
 
     const scale =
-      time + 0.5 < iterations * Math.PI
-        ? (Math.sin(time * 2 - Math.PI / 2 + 1) + 1.05) * 4
+      time < iterations * Math.PI
+        ? (Math.sin(time * 2 - Math.PI / 2) + 1) * 4
         : 0;
 
-    if (time + 0.5 > iterations * Math.PI && textMesh?.visible) {
+    if (time > iterations * Math.PI && textMesh?.visible) {
       textMesh.visible = false;
       if (textAfter) {
         textMesh = new Text(textAfter);
@@ -168,7 +168,7 @@ const world = function (props = {}) {
     if (material.userData.shader) {
       material.userData.shader.uniforms.circleScale.value = 0.1 + scale * 2;
     }
-  }, 15);
+  }, 60);
 
   return scene;
 };
