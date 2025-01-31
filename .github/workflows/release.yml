@@ -2,8 +2,8 @@ name: Release Build
 
 on:
   push:
-    branches:
-      - "test-release" # Trigger on version tags
+    tags:
+      - "*"
 
 jobs:
   build:
