@@ -5,13 +5,19 @@ const schema = {
   title: "Text",
   sceneId: "text",
   description: "A text widget.",
+  props: {
+    text: {
+      type: "string",
+      description: "The text to display. Can be multiline.",
+    },
+  },
 };
 
-const world = function () {
+const world = function (props = {}) {
   const scene = new Scene();
 
   scene.once("loaded", async () => {
-    const text = "Cula\nis cula\nthan cool.";
+    const text = props.text || "Your text here";
 
     scene.add(new Text(text));
   });
