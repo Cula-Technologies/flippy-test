@@ -5,6 +5,7 @@ const defaultConfig = {
   autoplay: true,
   loop: true,
   speed: 1,
+  useFrameInterpolation: false,
   renderConfig: {
     autoResize: true,
     devicePixelRatio: 1,
