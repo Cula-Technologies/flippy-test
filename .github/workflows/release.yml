@@ -1,0 +1,49 @@
+name: Release Build
+
+on:
+  push:
+    branches:
+      - "test-release" # Trigger on version tags
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          architecture: "x64"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build # Adjust this if you have a different build command
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+
+      - name: Package for ARM64
+        run: |
+          npm pack
+          mv flippy-test-*.tgz flippy-test-arm64-linux.tgz
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            flippy-test-arm64-linux.tgz
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
