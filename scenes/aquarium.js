@@ -1,6 +1,7 @@
 import Scene from "../src/Scene.js";
 import { Bubble } from "../src/Bubble.js";
 import { Fish } from "../src/Fish.js";
+import { Shark } from "../src/Shark.js";
 
 const schema = {
   title: "Aquarium",
@@ -16,6 +17,7 @@ const schema = {
   },
 };
 
+const SHARK_ATTACK_INTERVAL = 300;
 const aquarium = function (props = {}) {
   let { bubbleCount = 5 } = props;
 
@@ -24,7 +26,7 @@ const aquarium = function (props = {}) {
   const fishes = [];
   const bubbles = [];
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 3; i++) {
     const fish = new Fish(0.15 + i * 0.03);
     fishes.push(fish);
   }
@@ -34,18 +36,32 @@ const aquarium = function (props = {}) {
   }
 
   scene.once("loaded", async () => {
+    scene.add(shark);
+
     for (let i = 0; i < bubbles.length; i++) {
       scene.add(bubbles[i]);
     }
     fishes.forEach((fish) => scene.add(fish));
   });
 
-  scene.useLoop(function () {
-    for (let i = 0; i < bubbles.length; i++) {
-      bubbles[i].tick();
+  const shark = new Shark(0.3);
+
+  let sharkAttack = false;
+  scene.useLoop(function (delta) {
+    const initiateAttack = delta > 10 && delta % SHARK_ATTACK_INTERVAL === 0;
+
+    if (initiateAttack && sharkAttack === false) {
+      sharkAttack = true;
     }
 
-    fishes.forEach((fish) => fish.tick());
+    if (shark.position.x > 4) {
+      shark.resetSharkPosition();
+      sharkAttack = false;
+    }
+
+    shark.tick(sharkAttack);
+    fishes.forEach((fish) => fish.tick(sharkAttack));
+    bubbles.forEach((bubble) => bubble.tick());
   }, 15);
 
   return scene;

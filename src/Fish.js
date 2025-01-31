@@ -1,8 +1,12 @@
 import * as THREE from "three";
 
 export class Fish extends THREE.Group {
-  constructor(size = 0.2) {
+  constructor(size = 0.2, sharkAttackInSeconds = undefined) {
     super();
+
+    this.now = new Date().getTime();
+    this.sharkAttackInSeconds = sharkAttackInSeconds * 1000;
+
     this.size = size;
     this.movementVector = new THREE.Vector2(
       (Math.random() - 0.5) / 50,
@@ -34,16 +38,21 @@ export class Fish extends THREE.Group {
     this.scale.set(this.size, this.size, this.size);
   }
 
-  tick() {
+  tick(sharkAttack) {
+    if (sharkAttack) {
+      return this.hideFromTheShark();
+    }
+
     if (
-      Math.abs(this.position.x) > 1.3 &&
+      Math.abs(this.position.x) > 1 &&
       Math.sign(this.position.x) === Math.sign(this.movementVector.x)
     ) {
       this.movementVector.x *= -1;
     }
 
+    const halfHeight = 1.5 * this.size;
     if (
-      Math.abs(this.position.y) > 0.9 &&
+      Math.abs(this.position.y) + halfHeight > 1 &&
       Math.sign(this.position.y) === Math.sign(this.movementVector.y)
     ) {
       this.movementVector.y *= -1;
@@ -69,5 +78,15 @@ export class Fish extends THREE.Group {
       this.size,
       this.size
     );
+  }
+
+  hideFromTheShark() {
+    if (this.movementVector.x > 0) {
+      if (this.position.x > 2.7) return;
+      this.position.x += 0.1;
+    } else {
+      if (this.position.x < -2.7) return;
+      this.position.x -= 0.1;
+    }
   }
 }
