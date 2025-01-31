@@ -3,6 +3,7 @@ import glsl from 'glslify';
 
 const schema = {
   title: 'Shader',
+  id: 'shader',
   description: 'A shader scene that displays a shader.',
 }
 

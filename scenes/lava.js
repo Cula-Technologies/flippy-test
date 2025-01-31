@@ -8,6 +8,7 @@ const defaults = {
 
 const schema = {
   title: 'Lava',
+  id: 'lava',
   description: 'A lava lamp effect using three.js.',
   type: 'object',
   properties: {

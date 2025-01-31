@@ -5,6 +5,7 @@ import { mapData } from "../resources/textures/map.js";
 
 const schema = {
   title: "World",
+  id: "world",
   description: "A simple world widget.",
 };
 
