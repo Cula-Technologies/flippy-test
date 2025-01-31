@@ -42,8 +42,8 @@ const world = function () {
 
   scene.useLoop(() => {
     const delta = clock.getDelta();
-    globe.rotation.y += delta * 0.25;
-  }, 15);
+    globe.rotation.y += delta * 0.4;
+  }, 60);
 
   return scene;
 };
