@@ -8,11 +8,18 @@ const layout = [
     [11, 5],
     [12, 6],
 ];
-const devices = [{
+const devices = [
+{
     path: process.env.USB_DEVICE ?? '/dev/ttyUSB0',
-    addresses: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+    addresses: [1, 2, 3, 4, 5, 6],
     baudRate: 57600,
-}]
+},
+{
+    path: process.env.USB_DEVICE_2s ?? '/dev/ttyUSB1',
+    addresses: [7, 8, 9, 10, 11, 12],
+    baudRate: 57600,
+}
+]
 
 const nullDevices = [{
     path: 'null',
