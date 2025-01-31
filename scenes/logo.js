@@ -100,7 +100,7 @@ const logo = function () {
     // const intersectionMaterial = scene.three.scene.children[2].material;
     intersectionMaterial.uniforms.circle1Pos.value.x = circle.position.x;
     intersectionMaterial.uniforms.circle2Pos.value.x = hexagon.position.x;
-  }, 15);
+  }, 60);
 
   return scene;
 };
