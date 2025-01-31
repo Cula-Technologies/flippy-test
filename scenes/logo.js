@@ -3,7 +3,7 @@ import * as THREE from "three";
 
 const schema = {
   title: "Logo",
-  id: "logo",
+  sceneId: "logo",
   description: "A simple logo widget.",
 };
 

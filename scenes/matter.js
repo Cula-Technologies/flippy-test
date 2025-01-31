@@ -11,7 +11,7 @@ const defaults = {
 
 const schema = {
   title: 'Matter',
-  id: 'matter',
+  sceneId: 'matter',
   description: 'A physics simulation using matter.js.',
   properties: {
     hasWalls: {
