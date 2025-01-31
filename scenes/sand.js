@@ -5,38 +5,34 @@ import * as THREE from "three";
 const schema = {
   title: "Sand",
   sceneId: "sand",
-  description: "A grid-based sand simulation for flipdot display.",
+  description: "A grid-based sand simulation.",
+  properties: {
+    spawnRate: {
+      type: "number",
+      title: "Sand particles per second",
+      description: "How many sand particles to spawn per second",
+      default: 0.3,
+      minimum: 0.1,
+      maximum: 100
+    }
+  }
 };
 
-const sand = function () {
+const sand = function (config = {}) {
   const scene = new Scene();
   const clock = new THREE.Clock();
+  
+  // Configuration
+  const spawnRate = config.spawnRate || schema.properties.spawnRate.default;
+  const spawnInterval = 1 / spawnRate;
   
   // Grid parameters matching flipdot resolution
   const GRID_WIDTH = 56;
   const GRID_HEIGHT = 42;
   
-  // Normal distribution parameters
-  const MEAN = GRID_WIDTH / 2;
-  const STD_DEV = GRID_WIDTH / 6; // Adjusts how spread out the distribution is
-  
-  // Box-Muller transform for normal distribution
-  function normalRandom() {
-    let u = 0, v = 0;
-    while(u === 0) u = Math.random();
-    while(v === 0) v = Math.random();
-    const z = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-    // Transform to our desired mean and standard deviation
-    return Math.round(z * STD_DEV + MEAN);
-  }
-  
-  // Get a valid x position with normal distribution
+  // Get a random x position for dropping sand
   function getDropPosition() {
-    let x;
-    do {
-      x = normalRandom();
-    } while (x < 0 || x >= GRID_WIDTH);
-    return x;
+    return Math.floor(Math.random() * GRID_WIDTH);
   }
   
   // Create canvas for the grid
@@ -45,6 +41,31 @@ const sand = function () {
   
   // Initialize grid
   const grid = Array(GRID_HEIGHT).fill().map(() => Array(GRID_WIDTH).fill(0));
+  
+  // Calculate the current fill percentage
+  function calculateFillPercentage() {
+    let filledPixels = 0;
+    const totalPixels = GRID_WIDTH * GRID_HEIGHT;
+    
+    for (let y = 0; y < GRID_HEIGHT; y++) {
+      for (let x = 0; x < GRID_WIDTH; x++) {
+        if (grid[y][x] === 1) {
+          filledPixels++;
+        }
+      }
+    }
+    
+    return (filledPixels / totalPixels) * 100;
+  }
+  
+  // Invert the sand pattern
+  function invertSand() {
+    for (let y = 0; y < GRID_HEIGHT; y++) {
+      for (let x = 0; x < GRID_WIDTH; x++) {
+        grid[y][x] = grid[y][x] === 1 ? 0 : 1;
+      }
+    }
+  }
   
   // Create texture and material
   const texture = new THREE.CanvasTexture(
@@ -121,13 +142,23 @@ const sand = function () {
   });
 
   let timeSinceLastParticle = 0;
+  let shouldInvert = true; // Flag to ensure we only invert once per threshold
 
   scene.useLoop(() => {
     const delta = clock.getDelta();
     timeSinceLastParticle += delta;
     
-    // Add new sand particle every second
-    if (timeSinceLastParticle >= 0.5) {
+    // Check fill percentage and invert if needed
+    const fillPercentage = calculateFillPercentage();
+    if (fillPercentage >= 80 && shouldInvert) {
+      invertSand();
+      shouldInvert = false;
+    } else if (fillPercentage < 50) {
+      shouldInvert = true; // Reset flag when fill percentage drops below threshold
+    }
+    
+    // Add new sand particle based on spawn rate
+    if (timeSinceLastParticle >= spawnInterval) {
       const x = getDropPosition();
       if (grid[0][x] === 0) {
         grid[0][x] = 1;
