@@ -5,6 +5,7 @@ import { mapData } from "../resources/textures/map.js";
 
 const schema = {
   title: "Flat World Zoomed In",
+  sceneId: "world-flat-zoom",
   description: "A zoomed in flat world widget.",
 };
 

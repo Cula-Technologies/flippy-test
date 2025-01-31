@@ -3,6 +3,7 @@ import { Text } from "../src/Text.js";
 
 const schema = {
   title: "Text",
+  sceneId: "text",
   description: "A text widget.",
 };
 

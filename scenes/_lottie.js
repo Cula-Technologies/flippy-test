@@ -2,6 +2,7 @@ import Scene from '../src/Scene.js';
 
 const schema = {
   title: 'Lottie',
+  sceneId: 'lottie',
   description: 'A lottie animation player.',
   properties: {}
 }
