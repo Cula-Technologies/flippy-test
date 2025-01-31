@@ -1,8 +1,9 @@
 import * as THREE from "three";
 
 export class Fish extends THREE.Group {
-  constructor() {
+  constructor(size = 0.2) {
     super();
+    this.size = size;
     this.movementVector = new THREE.Vector2(
       (Math.random() - 0.5) / 50,
       (Math.random() - 0.5) / 50
@@ -30,7 +31,7 @@ export class Fish extends THREE.Group {
     eye.position.x = 0.2;
 
     this.add(eye);
-    this.scale.set(0.2, 0.2, 0.2);
+    this.scale.set(this.size, this.size, this.size);
   }
 
   tick() {
@@ -63,6 +64,10 @@ export class Fish extends THREE.Group {
       Math.min(0.05, this.movementVector.y)
     );
 
-    this.scale.set(Math.sign(this.movementVector.x) * 0.2, 0.2, 0.2);
+    this.scale.set(
+      Math.sign(this.movementVector.x) * this.size,
+      this.size,
+      this.size
+    );
   }
 }
