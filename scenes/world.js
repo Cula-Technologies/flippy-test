@@ -34,7 +34,7 @@ const world = function () {
       map: texture,
     });
 
-    const sphereGeometry = new THREE.SphereGeometry(1, 64, 64);
+    const sphereGeometry = new THREE.SphereGeometry(1, 128, 128);
     globe = new THREE.Mesh(sphereGeometry, material);
     globe.position.z = -1;
     scene.add(globe);
