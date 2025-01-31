@@ -5,24 +5,42 @@ const schema = {
   title: "Bouncy Logo",
   sceneId: "bouncy-logo",
   description: "A bouncy logo widget.",
+  properties: {
+    size: {
+      type: "number",
+      title: "Shape Size",
+      description: "Size of the shapes (radius)",
+      default: 0.5,
+      minimum: 0.1,
+      maximum: 1.0
+    },
+    speed: {
+      type: "number",
+      title: "Movement Speed",
+      description: "Speed of the shapes",
+      default: 0.02,
+      minimum: 0.005,
+      maximum: 0.05
+    }
+  }
 };
 
-const logo = function () {
+const logo = function (config = {}) {
   const scene = new Scene();
 
   let circle;
   let hexagon;
   let intersectionMaterial;
-  const SHAPE_RADIUS = 0.5;
+  const SHAPE_RADIUS = config.size || schema.properties.size.default;
+  const MAX_SPEED = config.speed || schema.properties.speed.default;
   
   // Helper function to generate velocity with minimum angle
   const generateVelocity = () => {
-    const MIN_COMPONENT = 0.008; // Minimum velocity in each direction
-    const MAX_COMPONENT = 0.02;
+    const MIN_COMPONENT = MAX_SPEED * 0.4; // Minimum velocity in each direction (40% of max)
     
     // Generate random components but ensure minimum values
-    let x = (Math.random() - 0.5) * MAX_COMPONENT;
-    let y = (Math.random() - 0.5) * MAX_COMPONENT;
+    let x = (Math.random() - 0.5) * MAX_SPEED;
+    let y = (Math.random() - 0.5) * MAX_SPEED;
     
     // Ensure minimum x component
     if (Math.abs(x) < MIN_COMPONENT) {
