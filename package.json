@@ -7,6 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node ./server.js",
+    "start:dev": "NODE_ENV=development node ./server.js",
+    "start:prod": "NODE_ENV=production node ./server.js",
     "package": "npx rollup index.js --file index.cjs --format cjs"
   },
   "author": "",
@@ -27,6 +29,7 @@
     "protobufjs": "^7.3.0",
     "raf": "^3.4.1",
     "serialport": "^13.0.0",
+    "serve-static": "^1.16.2",
     "three": "^0.162.0",
     "workerpool": "^9.1.1",
     "ws": "^8.17.0"
