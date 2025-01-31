@@ -4,13 +4,25 @@ const schema = {
   title: 'Lottie',
   sceneId: 'lottie',
   description: 'A lottie animation player.',
-  properties: {}
+  properties: {
+    url: {
+      type: 'string',
+      description: 'The URL of the lottie file.',
+      optional: true,
+    },
+    loop: {
+      type: 'boolean',
+      description: 'Whether to repeat the animation.',
+      default: true,
+      optional: true,
+    },
+  }
 }
 
-const lottie = function(props) {
+const lottie = function(props = { url: 'https://storage.googleapis.com/flippy/lunch2.lottie', loop: true }) {
   const scene = new Scene();
   scene.on('loaded', () => {
-    scene.add({url: 'https://storage.googleapis.com/flippy/lunch2.lottie' , isLottie: true})
+    scene.add({url: props.url, isLottie: true, loop: props.loop});
   })
   return scene;
 }

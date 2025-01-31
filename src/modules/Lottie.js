@@ -23,8 +23,8 @@ export default class Lottie extends Module {
     return true;
   }
   
-  async add(obj) {
-    const loadingConfig = {canvas: this.canvas, ...this.config, src: obj.url };
+  async add({url, loop}) {
+    const loadingConfig = {canvas: this.canvas, ...this.config, src: url, loop };
     this.dotLottie = new DotLottie(loadingConfig);
     this.dotLottie.load(loadingConfig);
 
