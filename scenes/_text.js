@@ -17,7 +17,7 @@ const world = function (props = {}) {
   const scene = new Scene();
 
   scene.once("loaded", async () => {
-    const text = props.text || "Your text here";
+    const text = props.text || "CULA <3\nFlippy";
 
     scene.add(new Text(text));
   });
