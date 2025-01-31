@@ -1,6 +1,7 @@
 import Module from './Module.js'
 import MatterModule from './Matter.js';
 import ThreeModule from './Three.js';
+import LottieModule from './Lottie.js';
 import UserInputModule from './UserInput.js';
 import EventEmitter from 'events'
 
@@ -11,5 +12,6 @@ export {
   Module,
   MatterModule,
   ThreeModule,
-  UserInputModule
+  UserInputModule,
+  LottieModule
 }

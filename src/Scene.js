@@ -130,7 +130,7 @@ class Scene extends EventEmitter {
 
   _renderBuffer() {
     this._render(this.renderBuffer);
-    this.shouldRenderOnTick = false;
+    // this.shouldRenderOnTick = false;
     this.renderBuffer = null;
   }
 
@@ -180,6 +180,16 @@ class Scene extends EventEmitter {
       this._addModule(this._three);
     }
     return this._three;
+  }
+
+
+
+  get lottie() {
+    if (!this._lottie) {
+      this._lottie = new LottieModule(this.canvas);
+      this._addModule(this._lottie);
+    }
+    return this._lottie;
   }
 
   get matter() {

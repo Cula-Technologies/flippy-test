@@ -49,6 +49,7 @@ export default class Playing extends EventEmitter {
     try {
       return await scene(props)
     } catch (e) {
+      console.log('error setting up scene', e)
       logger.error(`Error setting up scene: ${e.message}`)
       this.emit('finished')
     }
