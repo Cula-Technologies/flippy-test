@@ -30,14 +30,14 @@ jobs:
       - name: Package for ARM64
         run: |
           npm pack
-          mv flippy-test-*.tgz flippy-test-arm64-linux.tgz
+          mv flipdisc-server-*.tgz flipdisc-server-arm64-linux.tgz
 
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            flippy-test-arm64-linux.tgz
+            flipdisc-server-arm64-linux.tgz
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
