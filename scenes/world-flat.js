@@ -8,14 +8,45 @@ const schema = {
   title: "Flat World",
   sceneId: "world-flat",
   description: "A flat world widget.",
+  props: {
+    lat: {
+      type: "number",
+      description: "The latitude of the circle animation.",
+      optional: true,
+    },
+    long: {
+      type: "number",
+      description: "The longitude of the circle animation.",
+      optional: true,
+    },
+    text: {
+      type: "string",
+      description: "The text to display.",
+      optional: true,
+    },
+    textAfter: {
+      type: "string",
+      description: "The text to display after the circle animation.",
+      optional: true,
+    },
+    iterations: {
+      type: "number",
+      description: "The number of iterations.",
+      default: 3,
+      optional: true,
+    },
+  },
 };
 
-const world = function () {
+const world = function (props = {}) {
+  let { lat, long, text, textAfter, iterations = 3 } = props;
+
   const scene = new Scene();
   let map;
   let material;
   let x;
   let y;
+  let textMesh;
 
   const clock = new THREE.Clock();
 
@@ -47,7 +78,9 @@ const world = function () {
 
         // Add uniforms for circle
         shader.uniforms.circlePosition = { value: new THREE.Vector2(x, y) };
-        shader.uniforms.circleRadius = { value: 0.2 };
+        shader.uniforms.circleRadius = {
+          value: lat !== undefined && long !== undefined ? 0.2 : 0,
+        };
         shader.uniforms.circleScale = { value: 1.0 };
 
         // Add uniform declarations to shader
@@ -78,8 +111,7 @@ const world = function () {
           
           // Create inner and outer edge of ring
           float outerEdge = smoothstep(circleRadius * circleScale, (circleRadius * circleScale) + 0.01, dist);
-          
-          
+
           // Invert colors only in the ring area
           diffuseColor.rgb = mix(1.0 - diffuseColor.rgb, diffuseColor.rgb, 1.0 - outerEdge);
           `
@@ -91,53 +123,48 @@ const world = function () {
     map = new THREE.Mesh(planeGeometry, material);
     scene.add(map);
 
-    // Potsdam
-    // const lat = 52.3906;
-    // const long = 13.0645;
+    if (lat !== undefined && long !== undefined) {
+      x = (long / 180) * 1.5;
+      y = (lat / 90) * 0.75;
+    }
 
-    // New York
-    const lat = 40.7128;
-    const long = -74.006;
+    if (text) {
+      const backgroundWidth = (2.666666666 / 56) * (text.length * 4 + 3);
 
-    // Sydney
-    // const lat = -33.8651;
-    // const long = 151.2153;
+      const textBackground = new THREE.Mesh(
+        new THREE.PlaneGeometry(backgroundWidth, 0.9),
+        new THREE.MeshBasicMaterial({ color: 0x000000 })
+      );
+      textBackground.position.y = -1;
+      scene.add(textBackground);
 
-    // Tokyo
-    // const lat = 35.6895;
-    // const long = 139.6917;
-
-    // Singapore
-    // const lat = 1.2864;
-    // const long = 103.8501;
-
-    // Alaska
-    // const lat = 61.2181;
-    // const long = -149.9003;
-
-    x = (long / 180) * 1.5;
-    y = (lat / 90) * 0.75;
-
-    const text = "4.2t CO2";
-
-    const backgroundWidth = (2.666666666 / 56) * (text.length * 4 + 3);
-
-    const textBackground = new THREE.Mesh(
-      new THREE.PlaneGeometry(backgroundWidth, 0.9),
-      new THREE.MeshBasicMaterial({ color: 0x000000 })
-    );
-    textBackground.position.y = -1;
-    scene.add(textBackground);
-
-    const textMesh = new Text(text);
-    textMesh.position.y = -0.97;
-    scene.add(textMesh);
+      textMesh = new Text(text);
+      textMesh.position.y = -0.97;
+      scene.add(textMesh);
+    }
   });
 
   scene.useLoop(() => {
+    if (lat === undefined || long === undefined) {
+      return;
+    }
+
     const time = clock.getElapsedTime();
-    const scale = (Math.sin(time * 2) + 1.05) * 4;
-    // Update the circle scale in the shader instead
+
+    const scale =
+      time + 0.5 < iterations * Math.PI
+        ? (Math.sin(time * 2 - Math.PI / 2 + 1) + 1.05) * 4
+        : 0;
+
+    if (time + 0.5 > iterations * Math.PI && textMesh?.visible) {
+      textMesh.visible = false;
+      if (textAfter) {
+        textMesh = new Text(textAfter);
+        textMesh.position.y = -0.97;
+        scene.add(textMesh);
+      }
+    }
+
     if (material.userData.shader) {
       material.userData.shader.uniforms.circleScale.value = 0.1 + scale * 2;
     }
