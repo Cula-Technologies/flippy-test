@@ -21,7 +21,7 @@ export class Text extends THREE.Group {
           for (const [col, cell] of rowData.entries()) {
             if (!cell) continue;
 
-            const x = index * 4 + col - line.length * 2;
+            const x = index * 4 + col + 1 - line.length * 2;
             const y = 3 - row;
 
             const geometry = new THREE.PlaneGeometry(1, 1);

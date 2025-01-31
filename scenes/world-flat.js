@@ -2,6 +2,7 @@ import { createCanvas, Image } from "node-canvas-webgl";
 import Scene from "../src/Scene.js";
 import * as THREE from "three";
 import { mapData } from "../resources/textures/map.js";
+import { Text } from "../src/Text.js";
 
 const schema = {
   title: "Flat World",
@@ -91,12 +92,12 @@ const world = function () {
     scene.add(map);
 
     // Potsdam
-    const lat = 52.3906;
-    const long = 13.0645;
+    // const lat = 52.3906;
+    // const long = 13.0645;
 
     // New York
-    // const lat = 40.7128;
-    // const long = -74.006;
+    const lat = 40.7128;
+    const long = -74.006;
 
     // Sydney
     // const lat = -33.8651;
@@ -116,6 +117,21 @@ const world = function () {
 
     x = (long / 180) * 1.5;
     y = (lat / 90) * 0.75;
+
+    const text = "4.2t CO2";
+
+    const backgroundWidth = (2.666666666 / 56) * (text.length * 4 + 3);
+
+    const textBackground = new THREE.Mesh(
+      new THREE.PlaneGeometry(backgroundWidth, 0.9),
+      new THREE.MeshBasicMaterial({ color: 0x000000 })
+    );
+    textBackground.position.y = -1;
+    scene.add(textBackground);
+
+    const textMesh = new Text(text);
+    textMesh.position.y = -0.97;
+    scene.add(textMesh);
   });
 
   scene.useLoop(() => {
