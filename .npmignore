@@ -1,0 +1,10 @@
+*
+!config
+!resources
+!scenes
+!src
+!utils
+!server.js
+!index.js
+!package.json
+!packages-lock.json

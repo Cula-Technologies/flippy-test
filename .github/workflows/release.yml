@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build project
-        run: npm run build # Adjust this if you have a different build command
-
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v2
         with:
