@@ -19,7 +19,7 @@ const world = function (props = {}) {
   scene.once("loaded", async () => {
     const text = props.text || "CULA <3\nFlippy";
 
-    scene.add(new Text(text));
+    scene.add(new Text(text, { useLargeFont: false }));
   });
 
   return scene;
